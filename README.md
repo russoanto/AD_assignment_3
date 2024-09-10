@@ -1,40 +1,81 @@
-* Assignment #4 Particle filter localization:
-    - Objectives: Localize a forklift using the LiDAR and landmarks as reference
-    - Tasks evaluated (15 points):	
-        + Particle filter works and localizes the vehicle during the whole simulation (7 points) 
-			* In the code you will find different TODOs. The main tasks are related to the initialization, prediction, update, resampling and etc... (see the slides and source code)
-            * The random initialization implementation is 1 point
-            * The quality of the code and optimizations of the code will be positively evaluated (try to surprise me)
-			* Note: Please send me the source code of the best localization solution you are able to achieve.
+# Particle Filter Localization for Forklift Simulation
 
-        + Report describing the particle filter performance under different scenarios. Just one-two-three paragraphs by scenario. Each paragraph should include a discussion of the trajectory estimated and execution time (5 points)
-			* As we have seen during the lectures, the particle filter performance can be influenced by different factors (number of particles, error of the sensors or motion model...).
-			* After executing the particle filter algorithm, a file called "res.txt" will be produced. This file will contain information regarding the estimation in X,Y coordinates of the best particle; the ground truth in X,Y coordinates; and the execution time of your solution (from initialization to resampling). All this information is used to compute the output that can be seen after executing "plotter.py"
-			* The more the scenarios the higher the grade. Originality and quality of the report will be considered to determine grades (number of scenarios required is 3)
-			* Note: The report shall include the description of the scenario, the trajectory of the forklift and the configuration used.
-        
-        + Implement your own resampling method (3 points)
-            * https://bisite.usal.es/archivos/resampling_methods_for_particle_filtering_classification_implementation_and_strategies.pdf
-	+ Implement any functionality on top of the particle filter. Optimize the code, any improvement will be positively evaluated
-* ROS bag:
-    - Download the log file here: https://cloud.hipert.unimore.it/s/3y4DgMQDbTGK6WL
+## Assignment #4 - Particle Filter Localization
 
-* OS requirements:
-	- ROS (the installation command depends on the Linux distribution)
-		Example: sudo apt install ros-melodic-desktop-full (this one applies to Ubuntu 18)        
-    
-* Instructions to compile the code:
-        Open one terminal and run the following command: roscore
-        To compile the code run this command in a different terminal (in the root folder): catkin_make 
-	    The executable can be found in: ./devel/lib/particle/particle_node (run this command in a terminal to start the execution)
-        As soon as you launch the executable you can start the simulation. To do so, open another terminal and write:
-            rosbag play --clock --hz=10 out.bag    // this command allows to read all the data at 10hz (we do this for avoiding a lot of predictions without updating)
-        The executable generates a file called 'res.txt'
-	To generate the plot just write: "python3 plotter.py" (pay attention to the output file called res.txt with the trajectory and execution time of your implementation) 
-	
-* Important Note:
-    - All the TODOs are in the file called "particle_filter.cpp" & "main.cpp" but you are more than free to modify any source file
-    - In the folder you find 2 txt files:
-        * pf_slam.txt: Hipert's 'best' particle filter implementation
-        * res.txt: Nacho's 'prototype' particle filter implementation (feel free to use my result as reference)
+### Objectives
 
+The main objective of this project is to localize a forklift in a simulation using a particle filter. The forklift is equipped with a LiDAR and moves in an environment with known landmarks. The particle filter will be used to estimate the position of the forklift throughout the entire simulation.
+
+### Implemented Features
+
+- **Complete Particle Filter**: The filter runs throughout the entire simulation, covering all main steps:
+  - Particle initialization
+  - State prediction
+  - Update based on measurements
+  - Particle resampling
+
+- **Random Particle Initialization**: Particles are initialized randomly within the simulation space.
+
+- **Custom Resampling Method**: A custom resampling method has been implemented based on the paper "[Resampling methods for particle filtering: Classification, implementation and strategies](https://bisite.usal.es/archivos/resampling_methods_for_particle_filtering_classification_implementation_and_strategies.pdf)". This improvement aims to optimize the efficiency of resampling and the quality of the estimate.
+
+- **Performance Optimization**: Several improvements have been made to the code to make the particle filter more efficient in terms of execution and localization accuracy.
+
+### Code Structure
+
+The project includes the following main components:
+
+- `particle_filter.py`: Implements the particle filter with all steps (initialization, prediction, update, resampling).
+- `main.py`: Runs the simulation, executes the particle filter, and saves the results.
+- `plotter.py`: Script to visualize the estimated trajectories against the ground truth data.
+- `resampling.py`: Contains the custom resampling implementation.
+
+### Report
+
+The report describes the performance of the particle filter in different scenarios, analyzing the estimated trajectory, accuracy compared to ground truth, and execution times. The output file `res.txt` contains the X, Y coordinate estimates of the best particle, the corresponding ground truth, and the execution time.
+
+Results are discussed across different scenarios, varying:
+- Number of particles
+- Sensor errors (LiDAR noise)
+- Motion model
+
+### Running Instructions
+
+1. **Install dependencies**:
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+2. **Run the simulation**:
+    ```bash
+    python main.py
+    ```
+
+3. **Visualize the results**:
+    Once the simulation is complete, use the following command to generate the trajectory plots:
+    ```bash
+    python plotter.py
+    ```
+
+4. **Output**:
+    - The `res.txt` file contains position estimates (X, Y) and execution time.
+    - The generated plots show the particle filter’s estimated trajectory compared to the forklift’s actual trajectory.
+
+### Tested Scenarios
+
+The full report includes analysis of the following scenarios:
+
+1. **Scenario 1: Reduced Number of Particles**: Basic configuration with a limited number of particles and low sensor noise.
+2. **Scenario 2: High Sensor Noise**: Increased LiDAR noise to test the robustness of the filter.
+3. **Scenario 3: Increased Number of Particles**: More particles used to observe the impact on accuracy and execution times.
+
+### Future Improvements
+
+- Further optimization of the resampling algorithm for more complex scenarios.
+- Implementation of a more realistic motion model for the forklift.
+- Use of parallelization techniques to speed up the particle filter’s execution.
+
+### Author
+
+Project developed for the **Autonumus Driving** course.
+
+For more information, contact: [russoantonio451@gmail.com](mailto:russoantonio451@gmail.com).
