@@ -77,5 +77,3 @@ The full report includes analysis of the following scenarios:
 ### Author
 
 Project developed for the **Autonumus Driving** course.
-
-For more information, contact: [russoantonio451@gmail.com](mailto:russoantonio451@gmail.com).
